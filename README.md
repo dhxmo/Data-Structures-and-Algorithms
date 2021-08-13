@@ -1,4 +1,4 @@
-# this is a collection of some pre-requisite data structures and algorithm problems to go further into competitive programming
+This is a collection of some pre-requisite data structures and algorithm problems to go further into competitive programming
 
 I've broken up the whole thing into : <br />
 01 - Array <br />
@@ -17,6 +17,6 @@ I've broken up the whole thing into : <br />
 14 - Dynamic Programming <br />
 15 - Bit Manipulation <br />
 
-I got this from [doc] (https://drive.google.com/file/d/1FMdN_OCfOI0iAeDlqswCiC2DZzD4nPsb/view)
+I got this from https://drive.google.com/file/d/1FMdN_OCfOI0iAeDlqswCiC2DZzD4nPsb/view
 
 Go check out his youtube channel as well, some good stuff there.

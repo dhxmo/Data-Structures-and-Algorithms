@@ -24,17 +24,19 @@ int kSmallest(vector<int> arr, int left, int right, int k)
 {
     int p = partition(arr, left, right);
 
-    // kth on partition
+    // kth on partition -> then there's k - 1 elements on the left
     if (p == k)
     {
         return arr[p];
     }
-    // partition lower than k
+    // partition less than k -> less than k elements on left
+    // only call function from p+1 to the right edge recursively
     else if (p < k)
     {
         return kSmallest(arr, p + 1, right, k);
     }
-    // partition greater than k
+    // partition greater than k -> more than k smaller elements to the left 
+    // no need to sort right side, only call function recursively to left side
     else
     {
         return kSmallest(arr, left, p - 1, k);
