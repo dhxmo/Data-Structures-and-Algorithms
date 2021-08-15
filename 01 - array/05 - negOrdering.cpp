@@ -16,6 +16,7 @@ void rearrange(int arr[], int n)
         {
             if (i != j)
                 swap(arr[i], arr[j]);
+            // pointer goes up only if number satisfies the condition we want to track
             j++;
         }
     }
