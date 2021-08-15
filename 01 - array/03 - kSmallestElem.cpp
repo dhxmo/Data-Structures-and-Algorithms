@@ -48,6 +48,6 @@ int main()
     int k = 2;
 
     vector<int> arr = {7, 3, 76, 3, 31, 64, 1, 8, 53, 70};
-    sort(arr.begin(), arr.end());
+    // sort(arr.begin(), arr.end());
     cout << "Kth smallest: " << kSmallest(arr, 0, arr.size() - 1, k - 1) << "\n";
 }
