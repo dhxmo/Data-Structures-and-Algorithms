@@ -3,6 +3,7 @@
         "*html": "html",
         "*njk": "html",
         "iostream": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "ostream": "cpp"
     }
 }
