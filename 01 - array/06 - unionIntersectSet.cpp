@@ -50,14 +50,19 @@ int intersectArr(int arr1[], int m, int arr2[], int n)
 
     while (i < m && j < n)
     {
+        // if elem in first is lower, go to next and check again
         if (arr1[i] < arr2[j])
         {
             i++;
         }
+
+        // if elem in second is lower, go to next and check again
         else if (arr1[i] > arr2[j])
         {
             j++;
         }
+
+        // if equal, add to array
         else
         {
             intersect.push_back(arr1[i]);
