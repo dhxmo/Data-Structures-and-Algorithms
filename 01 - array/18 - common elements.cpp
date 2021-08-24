@@ -75,7 +75,7 @@ int main()
     cout << endl;
 
     cout << "The common elements between the arrays: ";
-    int subOpSol = ce.optimal(arr1, size1, arr2, size2, arr3, size3);
+    ce.optimal(arr1, size1, arr2, size2, arr3, size3);
 
     cout << endl;
 }
