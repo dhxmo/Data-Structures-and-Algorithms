@@ -1,6 +1,6 @@
 /* 
-Given pointer to the head node of a linked list, the task is to reverse the linked list. 
-We need to reverse the list by changing the links between nodes. */
+Given a linked list of size N. The task is to reverse every k nodes (where k is an input to the function) in the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should be considered as a group and must be reversed  
+*/
 
 #include <iostream>
 using namespace std;
@@ -32,42 +32,55 @@ void printList(struct Node *head)
     }
 }
 
-/* 
-Time Complexity : O(N) Traversal of list is done only once and it has 
-                 ‘n’ elements
-Auxiliary Space : O(N/K) For each Linked List of size n, n/k or 
-                 (n/k)+1 calls will be made during the recursion.
-*/
+/*  Time Complexity: O(N) where N is the number of nodes in the given list
+    Space Complexity: O(1) */
 
-struct Node *reverseKGroup(struct Node *head, int k)
+Node* reverse(struct Node* head, int k)
 {
-    // base case
-    if (!head)
-        return NULL;
-    Node *current = head;
-    Node *next = NULL;
-    Node *prev = NULL;
-    int count = 0;
+    Node* prev = NULL;
+    Node* curr = head;
+    Node* temp = NULL;
 
-    /*reverse first k nodes of the linked list */
-    while (current != NULL && count < k)
-    {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
-        count++;
+    Node* newHead = NULL;
+    
+    Node* tail = NULL;
+    Node* join = NULL;
+    int t = 0;
+ 
+    // Traverse till the end of the linked list
+    while (curr) {
+        t = k;
+        join = curr;
+        prev = NULL;
+ 
+        // Reverse group of k nodes of the linked list
+        while (curr && t--) {
+            temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
+        }
+ 
+        // Sets the new head of the input list
+        if (!newHead)
+            newHead = prev;
+ 
+        /* Tail pointer keeps track of the last node
+        of the k-reversed linked list. We join the
+        tail pointer with the head of the next
+        k-reversed linked list's head */
+        if (tail)
+            tail->next = prev;
+ 
+        /* The tail is then updated to the last node
+        of the next k-reverse linked list */
+        tail = join;
     }
-
-    /* next is now a pointer to (k+1)th node
-    Recursively call for the list starting from current.
-    And make rest of the list as next of first node */
-    if (next != NULL)
-        head->next = reverseKGroup(next, k);
-
-    /* prev is new head of the input list */
-    return prev;
+ 
+    /* newHead is new head of the input list */
+    return newHead;
 }
+
 
 int main()
 {
@@ -89,7 +102,7 @@ int main()
     printList(head);
 
     int k = 3;
-    head = reverseKGroup(head, k);
+    head = reverse(head, k);
 
     cout << "\nReversed Linked list in groups of " << k << endl;
     printList(head);
