@@ -35,52 +35,24 @@ void printList(struct Node *head)
 /*  Time Complexity: O(N) where N is the number of nodes in the given list
     Space Complexity: O(1) */
 
-Node* reverse(struct Node* head, int k)
+Node *reverse(struct Node *head, int k)
 {
-    Node* prev = NULL;
-    Node* curr = head;
-    Node* temp = NULL;
-
-    Node* newHead = NULL;
-    
-    Node* tail = NULL;
-    Node* join = NULL;
-    int t = 0;
- 
-    // Traverse till the end of the linked list
-    while (curr) {
-        t = k;
-        join = curr;
-        prev = NULL;
- 
-        // Reverse group of k nodes of the linked list
-        while (curr && t--) {
-            temp = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = temp;
-        }
- 
-        // Sets the new head of the input list
-        if (!newHead)
-            newHead = prev;
- 
-        /* Tail pointer keeps track of the last node
-        of the k-reversed linked list. We join the
-        tail pointer with the head of the next
-        k-reversed linked list's head */
-        if (tail)
-            tail->next = prev;
- 
-        /* The tail is then updated to the last node
-        of the next k-reverse linked list */
-        tail = join;
+    Node *curr = head;
+    Node *prev = NULL;
+    Node *q;
+    int counter = k;
+    while (counter-- && curr != NULL)
+    {
+        q = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = q;
     }
- 
-    /* newHead is new head of the input list */
-    return newHead;
-}
 
+    if (head != NULL)
+        head->next = reverse(q, k);
+    return prev;
+}
 
 int main()
 {
