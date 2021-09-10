@@ -3,6 +3,7 @@ Level order traversal of a tree is breadth-first traversal for the tree.
  */
 
 #include <iostream>
+#include <stack>
 #include <queue>
 using namespace std;
 
@@ -24,6 +25,16 @@ Node *newNode(int data)
 
     return node;
 }
+
+/* 
+Time Complexity: O(N^2) in worst case. 
+                For a skewed tree, printGivenLevel() takes O(n) time where n is the number of 
+                nodes in the skewed tree. So time complexity of printLevelOrder() is 
+                O(n) + O(n-1) + O(n-2) + .. + O(1) which is O(n^2). 
+Space Complexity: O(N) in worst case. 
+                For a skewed tree, printGivenLevel() uses O(n) space for call stack. 
+                For a Balanced tree, the call stack uses O(log n) space, (i.e., the height of the balanced tree). 
+*/
 
 // Print nodes at the current level
 void printCurrentLevel(Node *root, int level)
@@ -69,15 +80,6 @@ int height(Node *node)
     }
 }
 
-/* 
-Time Complexity: O(N^2) in worst case. 
-                For a skewed tree, printGivenLevel() takes O(n) time where n is the number of 
-                nodes in the skewed tree. So time complexity of printLevelOrder() is 
-                O(n) + O(n-1) + O(n-2) + .. + O(1) which is O(n^2). 
-Space Complexity: O(N) in worst case. 
-                For a skewed tree, printGivenLevel() uses O(n) space for call stack. 
-                For a Balanced tree, the call stack uses O(log n) space, (i.e., the height of the balanced tree). 
- */
 void printLevelOrderSubOp(Node *root)
 {
     int h = height(root);
@@ -87,6 +89,7 @@ void printLevelOrderSubOp(Node *root)
         printCurrentLevel(root, i);
     }
 }
+
 
 /* 
 Time Complexity: O(N) where N is the number of nodes in the binary tree 
@@ -124,6 +127,35 @@ void printLevelOrderOp(Node *root)
     }
 }
 
+
+// Time Complexity: O(N) where N is the number of nodes in the binary tree
+void reverseLevelOrderTraversal(Node *root)
+{
+    stack<Node *> stack;
+    queue<Node *> que;
+    que.push(root);
+
+    while (que.empty() == false)
+    {
+        root = que.front();
+        que.pop();
+        stack.push(root);
+
+        if (root->right)
+            que.push(root->right);
+
+        if (root->left)
+            que.push(root->left);
+    }
+
+    while (stack.empty() == false)
+    {
+        root = stack.top();
+        cout << root->data << " ";
+        stack.pop();
+    }
+}
+
 // Driver code
 int main()
 {
@@ -141,5 +173,20 @@ int main()
     printLevelOrderOp(root);
     cout << endl;
 
+    cout << "Reverse Level Order Traversal of binary tree is \n";
+    reverseLevelOrderTraversal(root);
+    cout << endl;
+
     return 0;
 }
+
+/* 
+use a deque(double-ended queue) to get the reverse level order. 
+A deque allows insertion and deletion at both the ends. If we do normal 
+level order traversal and instead of printing a node, push the node to 
+a stack and then print the contents of the deque, we get “5 4 3 2 1” 
+for the above example tree, but the output should be “4 5 2 3 1”. 
+So to get the correct sequence (left to right at every level), 
+we process children of a node in reverse order, we first push the 
+right subtree to the deque, then process the left subtree.
+ */
