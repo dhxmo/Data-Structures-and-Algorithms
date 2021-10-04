@@ -94,7 +94,7 @@ void findPrefixes(string arr[], int n)
 
 int main()
 {
-    string keys[] = {"lion", "loin", "lover", "loser", "laughter", "slaughter"};
+    string keys[] = {"lion", "loin", "lover", "love", "laughter", "laughterstered", "slaughter"};
     int n = sizeof(keys) / sizeof(keys[0]);
     findPrefixes(keys, n);
     cout << endl;

@@ -15,21 +15,21 @@ Overall time complexity of Heap Sort is O(nLogn).
 */
 void heapify(int arr[], int size, int root)
 {
-    int largest = root;
+    int smallest = root;
     int left = 2 * root + 1;
     int right = 2 * root + 2;
 
-    if (left < size && arr[left] > arr[largest])
-        largest = left;
+    if (left < size && arr[left] < arr[smallest])
+        smallest = left;
 
-    if (right < size && arr[right] > arr[largest])
-        largest = right;
+    if (right < size && arr[right] < arr[smallest])
+        smallest = right;
 
-    if (largest != root)
+    if (smallest != root)
     {
-        swap(arr[root], arr[largest]);
+        swap(arr[root], arr[smallest]);
         // recursively heapify affected sub-tree
-        heapify(arr, size, largest);
+        heapify(arr, size, smallest);
     }
 }
 
@@ -38,14 +38,6 @@ void heapSort(int arr[], int size)
     // build heap - rearrange array
     for (int i = size / 2 - 1; i >= 0; i--)
         heapify(arr, size, i);
-
-    // extract element from heap one-by-one
-    for (int i = size - 1; i > 0; i--)
-    {
-        swap(arr[0], arr[i]);
-        //call max heap on reduced heap
-        heapify(arr, i, 0);
-    }
 }
 
 void printArray(int arr[], int n)
