@@ -40,12 +40,12 @@ public:
             // if the difference isn't found in hashmap, increase its frequency
             if (map[x] == 0)
             {
-                map[arr[i]]++;
+                map[x]++;
             }
             else
             {
                 // add the difference's frequency to the hashmap
-                map[arr[i]]++;
+                map[x]++;
                 // update count
                 count += map[x];
             }
@@ -58,7 +58,7 @@ public:
 int main()
 {
     int k = 6;
-    int arr[] = {1, 5, 7, 1};
+    int arr[] = {1, 5, 7, 3, 4, 2, 3,1};
     int n = sizeof(arr) / sizeof(arr[0]);
 
     countPairs cp;
@@ -79,7 +79,7 @@ int main()
 
     k = 6
 
-    i       arr[i]       x=k-arr[i]       map[x] (number, frequency)          count 
+    i       arr[i]       x=k-arr[i]       map[x] (number, frequency)      count 
     0         1             5              (5, 1)                               0
     1         5             1              (1, 1), (5, 1)                       0
     2         7            -1              (-1, 1), (1, 1), (5, 1)              0
