@@ -11,13 +11,13 @@ using namespace std;
 struct Node
 {
     int data;
-    Node *left, *right;
+    struct Node *left, *right;
 };
 
 // Function to create a new node
 Node *newNode(int key)
 {
-    Node *node = new Node;
+    struct Node *node = new Node;
     node->data = key;
     node->left = node->right = NULL;
 
@@ -40,7 +40,7 @@ void inorder(Node *root)
     inorder(root->right);
 }
 
-void insert(Node *&root, int key)
+Node *insert(Node *root, int key)
 {
     // start with the rrot node
     Node *curr = root;
@@ -51,8 +51,7 @@ void insert(Node *&root, int key)
     // if tree is empty, create new node and set as root
     if (root == nullptr)
     {
-        root = newNode(key);
-        return;
+        return root = newNode(key);
     }
 
     // traverse the tree and find the parent node of the given key
@@ -80,6 +79,8 @@ void insert(Node *&root, int key)
     {
         parent->right = newNode(key);
     }
+
+    return parent;
 }
 
 Node *minValueNode(Node *node)
@@ -121,30 +122,36 @@ Node *deleteNode(Node *root, int key)
     {
         // node has no child
         if (root->left == NULL && root->right == NULL)
-            return NULL;
+        {
+            delete root;
+            root = NULL;
+        }
 
         // node has only one or no child
-        if (root->left == NULL)
+        else if (root->left == NULL)
         {
-            Node *temp = root->right;
-            free(root);
-            return temp;
+            struct Node *temp = root;
+            root = root->right;
+            delete temp;
         }
         else if (root->right == NULL)
         {
-            Node *temp = root->left;
-            free(root);
-            return temp;
+            struct Node *temp = root;
+            root = root->left;
+            delete temp;
         }
 
-        // node with two children: get smallest in the right subtree
-        Node *temp = minValueNode(root->right);
+        else
+        {
+            // node with two children: get smallest in the right subtree
+            Node *temp = minValueNode(root->right);
 
-        // copy inorder successor
-        root->data = temp->data;
+            // copy inorder successor
+            root->data = temp->data;
 
-        // delete inorder successor
-        root->right = deleteNode(root->right, temp->data);
+            // delete inorder successor
+            root->right = deleteNode(root->right, temp->data);
+        }
     }
 
     return root;
@@ -152,9 +159,10 @@ Node *deleteNode(Node *root, int key)
 
 int main()
 {
-    int keys[] = {95, 5, 8, 132, 564, 201, 54};
+    int keys[] = {20, 500, 10, 30, 600, 40};
 
-    Node *root = nullptr;
+    Node *root = NULL;
+    root = insert(root, 100);
     for (int key : keys)
     {
         insert(root, key);
@@ -164,7 +172,7 @@ int main()
     inorder(root);
     cout << endl;
 
-    root = deleteNode(root, 132);
+    root = deleteNode(root, 30);
     cout << "Binary Search Tree in order: ";
     inorder(root);
     cout << endl;
