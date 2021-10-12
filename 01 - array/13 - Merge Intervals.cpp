@@ -108,9 +108,9 @@ void mergeIntervals(Interval arr[], int n)
         }
         else
         {
-            // index keeps tabs of how many total intervals come out
+            // index moves up
             index++;
-            // move index array pointer up for next comparison
+            // shift a value up
             arr[index] = arr[i];
         }
     }
@@ -128,7 +128,7 @@ void mergeIntervals(Interval arr[], int n)
 
 int main()
 {
-    Interval arr[] = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+    Interval arr[] = {{1, 3}, {2, 6}, {8, 20}, {15, 18}};
     int n = sizeof(arr) / sizeof(arr[0]);
     mergeIntervals(arr, n);
     return 0;
