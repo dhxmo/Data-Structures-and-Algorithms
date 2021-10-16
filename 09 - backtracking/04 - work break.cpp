@@ -4,7 +4,9 @@ dictionary word. Each dictionary word can be used more than once.
 Return all such possible sentences. */
 
 #include <iostream>
-#include<vector>
+#include <vector>
+#include <unordered_set>
+#include <unordered_map>
 using namespace std;
 
 // backtracking solution
@@ -50,9 +52,57 @@ void wordBreakBacktrack(string str)
     wordBreakUtil(str, str.size(), "");
 }
 
+// Dynamic programming
+// Time complexity: O(n^2)
+// Space complexity: O(n)
+unordered_map<string, vector<string>> dp;
+vector<string> wordBreakDP(string str, vector<string> &wordDict)
+{
+    // memoization
+    // if string is repeating character, dp holds subproblem solutions
+    if (dp.find(str) != dp.end())
+        return dp[str];
+
+    vector<string> result;
+
+    // look through dictionary for hits in string
+    for (string word : wordDict)
+    {
+        if (str.substr(0, word.length()) == word)
+        {
+            // if hit found, return substring
+            if (word.length() == str.length())
+                // push into result array
+                result.push_back(word);
+
+            // push remaining substring into recursive call
+            else
+            {
+                // recursively call word end to string end
+                // store the subproblem solutions in temp variable 
+                vector<string> tmp = wordBreakDP(str.substr(word.length()), wordDict);
+                // append strings returned to result
+                for (string t : tmp)
+                    result.push_back(word + " " + t);
+            }
+        }
+    }
+
+    // add cached results
+    dp[str] = result;
+
+    return result;
+}
+
 int main()
 {
+    vector<string> dict = {"cats", "cat", "and", "sand", "dog"};
     string str = "catsanddog";
     wordBreakBacktrack(str);
+
+    vector<string> result = wordBreakDP(str, dict);
+    for (auto str : result)
+        cout << str << " \n";
+        
     return 0;
 }
