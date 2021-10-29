@@ -1,4 +1,4 @@
-/* Given a linked list of N nodes. The task is to check if the linked list has a loop. 
+/* Given a linked list of N nodes. The task is to check if the linked list has a loop.
 Linked list can contain self loop. */
 
 #include <iostream>
@@ -18,40 +18,39 @@ void push(struct Node **head, int new_data)
     *head = newNode;
 }
 
-/* 
+/*
 using Floyd's cycle-finding algorithm
 
-Approach: 
+Approach:
 1. Traverse linked list using two pointers.
 2. Move one pointer(slow_p) by one and another pointer(fast_p) by two.
-If these pointers meet at the same node then there is a loop. 
-If pointers do not meet then linked list doesn’t have a loop. 
+If these pointers meet at the same node then there is a loop.
+If pointers do not meet then linked list doesn’t have a loop.
 
 Time complexity: O(n), Only one traversal of the loop is needed.
 Auxiliary Space:O(1)
 */
 bool detectLoop(struct Node *root)
 {
-    struct Node *slow_ptr = root, *fast_ptr = root;
+    struct Node *slow_ptr = root, *fast_ptr = root->next;
     while (slow_ptr && fast_ptr && fast_ptr->next)
     {
-        slow_ptr = slow_ptr->next;
-        fast_ptr = fast_ptr->next->next;
         if (slow_ptr == fast_ptr)
             return true;
+        slow_ptr = slow_ptr->next;
+        fast_ptr = fast_ptr->next->next;
     }
     return false;
 }
 
-
-/* In this method, a temporary node is created. The next pointer of 
-each node that is traversed is made to point to this temporary node. 
-This way we are using the next pointer of a node as a flag to indicate 
-whether the node has been traversed or not. Every node is checked 
-to see if the next is pointing to a temporary node or not. 
-In the case of the first node of the loop, the second time we traverse 
-it this condition will be true, hence we find that loop exists. 
-If we come across a node that points to null then the loop doesn’t exist. 
+/* In this method, a temporary node is created. The next pointer of
+each node that is traversed is made to point to this temporary node.
+This way we are using the next pointer of a node as a flag to indicate
+whether the node has been traversed or not. Every node is checked
+to see if the next is pointing to a temporary node or not.
+In the case of the first node of the loop, the second time we traverse
+it this condition will be true, hence we find that loop exists.
+If we come across a node that points to null then the loop doesn’t exist.
 
 Time complexity: O(n)
 Auxiliary Space:O(1)

@@ -1,6 +1,6 @@
-/*  The diameter of a tree (sometimes called the width) is the number of nodes on the longest path between 
-two end nodes. The diagram below shows two trees each with diameter nine, the leaves that form the ends 
-of the longest path are shaded (note that there is more than one path in each tree of length nine, 
+/*  The diameter of a tree (sometimes called the width) is the number of nodes on the longest path between
+two end nodes. The diagram below shows two trees each with diameter nine, the leaves that form the ends
+of the longest path are shaded (note that there is more than one path in each tree of length nine,
 but no path longer than nine nodes).  */
 
 #include <iostream>
@@ -22,11 +22,11 @@ struct Node *newNode(int data)
     return temp;
 }
 
-/* 
+/*
 
 The diameter of a tree T is the largest of the following quantities:
 
-Return max of following three: 
+Return max of following three:
 1) Diameter of left subtree
 2) Diameter of right subtree
 3) Height of left subtree + height of right subtree + 1
@@ -59,27 +59,27 @@ int diameter(struct Node *root)
     return max(leftSubTreeHeight + rightSubTreeHeight + 1, max(leftSubTreeDiameter, rightSubTreeDiameter));
 }
 
-
 /* Time Complexity: O(N)
 the diameter of a tree is maximum value of (left_height + right_height + 1) for each node. So we need to calculate this value (left_height + right_height + 1) for each node and update the result.
 */
-int heightUtil(struct Node *root, int &height) {
+int heightUtil(struct Node *root, int &height)
+{
     if (root == NULL)
         return 0;
 
+    // compute height recursively
     int leftSubTreeHeight = heightUtil(root->left, height);
     int rightSubTreeHeight = heightUtil(root->right, height);
 
-    // update height
-    // diameter is max value of the height of each subtree
+    // update height for each node on the way up from leaf to root
     height = max(height, 1 + leftSubTreeHeight + rightSubTreeHeight);
 
+    // return height at root
     return 1 + max(leftSubTreeHeight, rightSubTreeHeight);
-
-    
 }
 
-int diameterOptimized (struct Node *root) {
+int diameterOptimized(struct Node *root)
+{
     if (root == NULL)
         return 0;
     int h = INT8_MIN;
