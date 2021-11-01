@@ -77,7 +77,7 @@ void mirrorIterative(struct Node *root)
         // swap left and right child
         swap(curr->left, curr->right);
 
-        // push left and right children
+        // push left and right children to que
         if (curr->left)
             q.push(curr->left);
         if (curr->right)

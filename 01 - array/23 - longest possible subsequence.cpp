@@ -50,25 +50,30 @@ int longestSubSequenceOp(int arr[], int size)
     // then update optimal length
     for (int i = 0; i < size; i++)
     {
-        // check if the number to its left exists in the set (if current element is starting element of a sequence)
-        if (hashset.find(arr[i] - 1) == hashset.end())
+        // check if current element is the starting element of a sequence
+        if (hashset.find(arr[i] - 1) != hashset.end())
         {
-            // next check for successive elements in the sequence
-            int j = arr[i];
-            while (hashset.find(j) != hashset.end())
-                j++;
-
+            // count at 1 so the increment would mean 2 elements in a subsequence
+            int curr = arr[i], count = 1;
+            
+            // check for successive elements in the sequence
+            while (hashset.find(curr) != hashset.end())
+            {
+                // if found, increment to next number in the sequence
+                curr++;
+                // increment count of the number of elements in the subsequence
+                count++;
+            }
             //update maxCount
-            maxCount = max(maxCount, j - arr[i]);
+            maxCount = max(maxCount, count);
         }
     }
-
     return maxCount;
 }
 
 int main()
 {
-    int arr[] = {2, 6, 1, 9, 4, 5, 3};
+    int arr[] = {0, 3, 7, 2, 5, 8, 4, 6, 0, 1};
     int size = sizeof(arr) / sizeof(arr[0]);
 
     cout << "Longest possible consecutive numbers in the given array = " << longestSubSequenceSubOp(arr, size) << endl;
