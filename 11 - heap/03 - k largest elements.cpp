@@ -148,20 +148,52 @@ void firstKElementsMinHeap(int arr[], int size, int k)
     }
 }
 
+/* 
+Time Complexity: O(NlogN)
+*/
+void minHeapSol(vector<int> &arr, int n, int k)
+{
+    // change to decreasing order to form a min heap
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    // iterate over the array
+    for (int it : arr)
+    {
+        // push elements into the que
+        pq.push(it);
+
+        // if the elements exceed k, remove the element at the top (the min of the array)
+        if (pq.size() > k)
+            pq.pop();
+    }
+
+    // left with k maximum elements, hence print
+    while (!pq.empty())
+    {
+        cout << pq.top() << " ";
+        pq.pop();
+    }
+    return;
+}
+
 int main()
 {
     int n1 = 5, k1 = 2;
     int arr1[] = {12, 5, 787, 1, 23};
-
     cout << k1 << " largest elements in the array are: ";
     kLargestSubOp(arr1, n1, k1);
     cout << endl;
 
-    int arr2[] = {11, 3, 2, 1, 15, 5, 4, 45, 88, 96, 50, 45};
-    int n2 = sizeof(arr2) / sizeof(arr2[0]), k2 = 4;
-
+    int arr2[] = {1, 23, 12, 9, 30, 2, 50};
+    int n2 = sizeof(arr2) / sizeof(arr2[0]), k2 = 3;
     cout << k2 << " largest elements in the array are: ";
     firstKElementsMinHeap(arr2, n2, k2);
+    cout << endl;
+
+    vector<int> arr3 = {1, 23, 12, 9, 30, 2, 50};
+    int n3 = sizeof(arr2) / sizeof(arr2[0]), k3 = 3;
+    cout << k2 << " largest elements in the array are: ";
+    minHeapSol(arr3, n3, k3);
     cout << endl;
 
     return 0;
