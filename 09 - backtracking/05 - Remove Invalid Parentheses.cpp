@@ -6,94 +6,99 @@ Return all the possible results. You may return the answer in any order.
  */
 
 #include <iostream>
-#include <set>
 #include <stack>
 #include <vector>
 #include <unordered_map>
 using namespace std;
 
-int find_removals(string str)
+class removeInvalidParens
 {
-    stack<char> st;
-    for (int i = 0; i < str.length(); i++)
-    {
-        // if open parens, push into stack
-        if (str[i] == '(')
-            st.push(str[i]);
+public:
+    vector<string> res;
+    // map to prevent string duplication
+    unordered_map<string, int> mp;
 
-        // if closing parens
-        else if (str[i] == ')')
+    // function to get how many parentheses can be removed
+    int getMinValid(string s)
+    {
+        stack<char> st;
+        int i = 0;
+        while (i < s.size())
         {
-            // if stack non-empty and has open parens
-            // pop open parens out
-            if (st.size() != 0 && st.top() == '(')
-                st.pop();
-            else
-                // else add close parens to the stack
-                st.push(')');
+            // if open parens, push into stack
+            if (s[i] == '(')
+                st.push('(');
+            // if closing parens
+            else if (s[i] == ')')
+            {
+                // if stack non-empty and has open parens
+                // pop open parens out
+                if (st.size() > 0 && st.top() == '(')
+                    st.pop();
+                else
+                    // else add close parens to the stack
+                    st.push(')');
+            }
+            i++;
         }
+        // return size of the stack to get the min removals needed in the string
+        return st.size();
     }
 
-    // return size of the stack to get the min removals needed in the string
-    return st.size();
-}
+    void solve(string s, int minInvalid)
+    {
+        // to prevent duplicates in the final answer
+        // if the string has already appeared
+        // no need to consider it again
+        if (mp[s] != 0)
+            return;
+        // else if the tsring is coming in for the first time
+        // increase its count
+        else
+            mp[s]++;
 
-void solve(string str, vector<string> &ans, unordered_map<string, bool> &mp, int removals)
-{
-    // if map of string is already computed, then return
-    if (mp[str])
+        // base case
+        if (minInvalid < 0)
+            return;
+        // if stack is empty, then valid parentheses string
+        if (minInvalid == 0)
+        {
+            // check that stack is in fact 0
+            if (!getMinValid(s))
+                // push to result vector
+                res.push_back(s);
+            return;
+        }
+
+        // iterate through string
+        for (int i = 0; i < s.size(); i++)
+        {
+            // isolate left of the current selection
+            string left = s.substr(0, i);
+            // isolate right of the current selection
+            string right = s.substr(i + 1);
+            // recurse for the string without the current parens
+            // reduce one count to accomodate the exclusion
+            solve(left + right, minInvalid - 1);
+        }
         return;
-    // else process the current string
-    else
-    {
-        mp[str] = true;
     }
 
-    if (removals == 0)
+    vector<string> removeInvalidParentheses(string s)
     {
-        // find removals needed on current string
-        int removals_needed = find_removals(str);
-        // if no removals needed, push to vector
-        if (removals_needed == 0)
-            ans.push_back(str);
-
-        return;
+        solve(s, getMinValid(s));
+        return res;
     }
-
-    // iterate over the string
-    for (int i = 0; i < str.length(); i++)
-    {
-        // left substring of the current char
-        string leftPart = str.substr(0, i);
-        // right substring of the current char
-        string rightPart = str.substr(i + 1);
-        // join the two substrings
-        // ie., the join string now doesn't have the current char
-        string join = leftPart + rightPart;
-        // recurse on new string
-        solve(join, ans, mp, removals - 1);
-    }
-}
-
-vector<string> removeInvalidParentheses(string str)
-{
-    unordered_map<string, bool> mp;
-
-    // minimum number of paren removals needed for a balanced string
-    int min_removals = find_removals(str);
-
-    vector<string> ans;
-    solve(str, ans, mp, min_removals);
-
-    return ans;
-}
+};
 
 int main()
 {
-    string expression = "()())()";
-    vector<string> ans = removeInvalidParentheses(expression);
+    string expression = "lee(t)(co)de)";
 
-    for (auto str : ans)
+    removeInvalidParens rm;
+    vector<string> ans2 = rm.removeInvalidParentheses(expression);
+
+    for (auto str : ans2)
         cout << str << endl;
 
     return 0;
