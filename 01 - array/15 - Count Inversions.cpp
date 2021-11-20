@@ -5,6 +5,8 @@ order then the inversion count is the maximum. Formally, two elements
 a[i] and a[j] form an inversion if a[i] > a[j] and i < j. */
 
 #include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 class countInversions
